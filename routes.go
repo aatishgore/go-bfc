@@ -22,6 +22,6 @@ func Init() {
 	// create server
 	err := http.ListenAndServe(":8080", myRouter)
 
+	// log a error
 	log.Fatal(err)
-
 }
