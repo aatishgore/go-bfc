@@ -18,18 +18,28 @@ func Init() {
 	// create rounter object to handel a route
 	myRouter := mux.NewRouter()
 
+	// set comon header
+	myRouter.Use(commonMiddleware)
+
 	// set prefix of route
-	myRouter.PathPrefix("/api/")
+	subRouter := myRouter.PathPrefix("/api/").Subrouter()
 
 	// routing list
-	myRouter.HandleFunc("/add/event", event.AddEvent).Methods("POST")
-	myRouter.HandleFunc("/list", event.GetEvents).Methods("GET")
-	// myRouter.HandleFunc("/new-event-count", event.GetUnreadEventCount).Methods("GET")
-	// myRouter.HandleFunc("/{id}/get", event.GetEvent).Methods("GET")
+	subRouter.HandleFunc("/add/incident", event.AddEvent).Methods("POST")
+	subRouter.HandleFunc("/incident", event.GetDetail).Methods("GET")
+	subRouter.HandleFunc("/incident/{id:[0-9]+}", event.GetDetail).Methods("GET")
+	myRouter.HandleFunc("/notification", event.GetEventTypeCount).Methods("GET")
 
 	// create server
 	err := http.ListenAndServe(":8080", myRouter)
 
 	// log a error
 	log.Fatal(err)
+}
+
+func commonMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Add("Content-Type", "application/json")
+		next.ServeHTTP(w, r)
+	})
 }

@@ -2,19 +2,34 @@ package service
 
 import (
 	"BFC/modules/event/model"
-	"BFC/utilities"
-	"encoding/json"
-
 	"fmt"
 )
 
+// EventResponse is ...
+type EventResponse struct {
+	Status bool        `json:"status"`
+	Data   model.Event `json:"data"`
+}
+
+// EventsResponse is ...
+type EventsResponse struct {
+	Status bool         `json:"status"`
+	Data   model.Events `json:"data"`
+}
+
+// EventsTypeResponse is ...
+type EventsTypeResponse struct {
+	Status bool          `json:"status"`
+	Data   []model.Count `json:"data"`
+}
+
+// define response variable
+var response string
+
 // AddEvent is ...
 // AddEvent create an event and sent response to service.
-func AddEvent() string {
-	// define response variable
-	var response string
-
-	event := &model.Event{
+func AddEvent() EventResponse {
+	event := model.Event{
 		EventName:   "this is a event Name",
 		EventSource: "this is a demo event source",
 		EventDetail: "this is a event detail",
@@ -22,20 +37,12 @@ func AddEvent() string {
 	}
 
 	// call model to create a event
-	eventResponse := model.AddEvent(event)
+	eventData := model.AddEvent(event)
 
-	// check event is created or not
-	if eventResponse != 0 {
-		fmt.Println("Record has Created")
-		// convert response into json string and encodeing to response fro controller
-		response = utilities.ResponseEncode(false, "Record was created")
-	} else {
-		fmt.Println("Record has not created")
-		// encoding to response for controller
-		response = utilities.ResponseEncode(false, "")
-	}
+	//create response to send a controller
+	eventsResponse := EventResponse{true, eventData}
 
-	return response
+	return eventsResponse
 
 }
 
@@ -43,16 +50,59 @@ func AddEvent() string {
 
 // GetAllEvent is ...
 // this service all event
-func GetAllEvent() string {
+func GetAllEvent() EventsResponse {
+
 	// call model to get a events
 	eventList := model.GetEvents()
 
-	// decode into json to send a response
-	eventJSONEncoded, _ := json.Marshal(eventList)
+	// create event response struct
+	eventsResponse := EventsResponse{true, eventList}
 
-	// encode in json and return a response
-	response := utilities.ResponseEncode(false, string(eventJSONEncoded))
-	return response
+	return eventsResponse
 }
 
 // end : GetAllEvent
+
+// GetEventDetail is ...
+// this service five event detail
+func GetEventDetail(id string) EventResponse {
+
+	// call model to get a events
+	eventDetail := model.GetEvent(id)
+
+	// create event response struct
+	eventsResponse := EventResponse{true, eventDetail}
+
+	// sending a response
+	return eventsResponse
+}
+
+// end : GetEventDetail
+
+// GetUnreadEventCount is ...
+// get count of unread event
+func GetUnreadEventCount() {
+
+	// call model to get a total event
+	totalCount := model.GetUnreadEventCount()
+
+	fmt.Println("total Count", totalCount)
+}
+
+// end : GetUnreadEventCount
+
+// GetUnreadEventTypeCount is ...
+// get count of unread event
+func GetUnreadEventTypeCount() EventsTypeResponse {
+
+	// call model to get a total unread event
+	countByEventType := model.GetUnreadEventTypeCount()
+
+	// create event Count response struct
+	eventsResponse := EventsTypeResponse{true, countByEventType}
+
+	return eventsResponse
+
+}
+
+// end : GetUnreadEventTypeCount

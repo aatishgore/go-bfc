@@ -12,14 +12,15 @@ type Response struct {
 
 // ResponseEncode is ...
 func ResponseEncode(status bool, data string) string {
-	jsonResponseData, err := json.Marshal(&Response{status: status, data: data})
+
+	response := Response{status: status, data: data}
+
+	jsonResponseData, err := json.Marshal(response)
 
 	// if unable to encode into a json then send default error json
 	if err != nil {
-		jsonResponseData, _ = json.Marshal(&Response{status: false, data: ""})
+		jsonResponseData, _ = json.Marshal(Response{status: false, data: ""})
 	}
-
-	println(jsonResponseData)
 
 	return string(jsonResponseData)
 }

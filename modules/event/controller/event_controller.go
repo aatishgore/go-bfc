@@ -2,8 +2,10 @@ package controller
 
 import (
 	service "BFC/modules/event/service"
-	"fmt"
+	"encoding/json"
 	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
 // AddEvent is ...
@@ -13,14 +15,39 @@ func AddEvent(w http.ResponseWriter, r *http.Request) {
 	serviceResponse := service.AddEvent()
 
 	// writing a response
-	fmt.Fprintln(w, serviceResponse)
+	json.NewEncoder(w).Encode(serviceResponse)
 }
 
 // GetEvents is ...
 // GetEvents is featch a list of all events
 func GetEvents(w http.ResponseWriter, r *http.Request) {
+	// call service to get all events
 	serviceResponse := service.GetAllEvent()
 
 	// writing a response
-	fmt.Fprintln(w, serviceResponse)
+	json.NewEncoder(w).Encode(serviceResponse)
+}
+
+// GetDetail is ...
+// GetEvents is featch a list of all events
+func GetDetail(w http.ResponseWriter, r *http.Request) {
+
+	// get id from request
+	vars := mux.Vars(r)
+
+	// call service to get a details
+	serviceResponse := service.GetEventDetail(vars["id"])
+
+	// writing a response
+	json.NewEncoder(w).Encode(serviceResponse)
+}
+
+// GetEventTypeCount is ...
+// GetEventTypeCount is featch a count by event type which is unread
+func GetEventTypeCount(w http.ResponseWriter, r *http.Request) {
+	// call service to get a details
+	serviceResponse := service.GetUnreadEventTypeCount()
+
+	// writing a response
+	json.NewEncoder(w).Encode(serviceResponse)
 }
