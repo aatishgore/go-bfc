@@ -2,6 +2,7 @@ package model
 
 import (
 	"BFC/utilities"
+	"fmt"
 	"time"
 
 	"github.com/jinzhu/gorm"
@@ -53,6 +54,8 @@ func GetEvents() Events {
 	events := Events{}
 
 	db.Find(&events)
+
+	fmt.Println(events)
 
 	return events
 
