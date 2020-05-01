@@ -2,6 +2,8 @@ package main
 
 import (
 	event "BFC/modules/event/controller"
+	socket "BFC/utilities"
+
 	"log"
 	"net/http"
 
@@ -30,6 +32,10 @@ func Init() {
 	subRouter.HandleFunc("/incident/{id:[0-9]+}", event.GetDetail).Methods("GET")
 	subRouter.HandleFunc("/notification", event.GetEventTypeCount).Methods("GET")
 
+	// create websocket
+	myRouter.HandleFunc("/echo", func(w http.ResponseWriter, r *http.Request) {
+		socket.Initialize(w, r)
+	})
 	// create server
 	err := http.ListenAndServe(":8080", myRouter)
 

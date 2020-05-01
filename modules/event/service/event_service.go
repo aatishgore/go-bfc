@@ -11,6 +11,12 @@ type EventResponse struct {
 	Data   model.Event `json:"data"`
 }
 
+//EventNoDataResponse is ....
+type EventNoDataResponse struct {
+	Status bool     `json:"status"`
+	Data   []string `json:"data"`
+}
+
 // EventsResponse is ...
 type EventsResponse struct {
 	Status bool         `json:"status"`
@@ -106,3 +112,10 @@ func GetUnreadEventTypeCount() EventsTypeResponse {
 }
 
 // end : GetUnreadEventTypeCount
+
+func NonEventData() EventNoDataResponse {
+	var data []string
+	data = append(data, "No Event found")
+
+	return EventNoDataResponse{true, data}
+}
