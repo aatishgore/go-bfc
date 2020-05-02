@@ -76,7 +76,7 @@ func Initialize(w http.ResponseWriter, r *http.Request) {
 // Notify is to write on socket message
 func Notify(message string) {
 	msg := []byte(message)
-	fmt.Println("Active connections %v", len(ConnWS))
+	fmt.Printf("Active connections %v", len(ConnWS))
 	for _, conn := range ConnWS {
 		muTx.Lock()
 		err := conn.WriteMessage(1, msg)

@@ -10,8 +10,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
-// AddEvent is ...
-// Add event action perfomed and wrire a response to destination
+// AddEvent action perfomed and wrire a response to destination
 func AddEvent(w http.ResponseWriter, r *http.Request) {
 	// call service to add an event and get response from service
 	serviceResponse := service.AddEvent()
@@ -19,7 +18,6 @@ func AddEvent(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(serviceResponse)
 }
 
-// GetEvents is ...
 // GetEvents is featch a list of all events
 func GetEvents(w http.ResponseWriter, r *http.Request) {
 	// call service to get all events
@@ -29,8 +27,7 @@ func GetEvents(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(serviceResponse)
 }
 
-// GetDetail is ...
-// GetEvents is featch a list of all events
+// GetDetail is featch a list of all events
 func GetDetail(w http.ResponseWriter, r *http.Request) {
 
 	// get id from request
@@ -52,7 +49,6 @@ func GetDetail(w http.ResponseWriter, r *http.Request) {
 	// writing a response
 }
 
-// GetEventTypeCount is ...
 // GetEventTypeCount is featch a count by event type which is unread
 func GetEventTypeCount(w http.ResponseWriter, r *http.Request) {
 	// call service to get a details
