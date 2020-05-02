@@ -2,7 +2,6 @@ package service
 
 import (
 	"BFC/modules/event/model"
-	"fmt"
 )
 
 // EventResponse is ...
@@ -27,6 +26,12 @@ type EventsResponse struct {
 type EventsTypeResponse struct {
 	Status bool          `json:"status"`
 	Data   []model.Count `json:"data"`
+}
+
+// EventsTypeResponseTt is ...
+type UnreadMessageCount struct {
+	Status bool     `json:"status"`
+	Data   []uint64 `json:"data"`
 }
 
 // define response variable
@@ -87,12 +92,13 @@ func GetEventDetail(id string) EventResponse {
 
 // GetUnreadEventCount is ...
 // get count of unread event
-func GetUnreadEventCount() {
-
+func GetUnreadEventCount() UnreadMessageCount {
+	var count []uint64
 	// call model to get a total event
 	totalCount := model.GetUnreadEventCount()
-
-	fmt.Println("total Count", totalCount)
+	count = append(count, totalCount)
+	response := UnreadMessageCount{true, count}
+	return response
 }
 
 // end : GetUnreadEventCount

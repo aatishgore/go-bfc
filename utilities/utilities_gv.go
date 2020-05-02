@@ -49,10 +49,10 @@ func GetGlobalVariable() {
 
 	// assigning value for database variable
 	GvDatabaseVariable = &GvDatabase{
-		User:     os.Getenv("USER"),
-		Password: os.Getenv("PASSWORD"),
-		Host:     os.Getenv("HOST"),
-		Database: os.Getenv("DATABASE"),
+		User:     os.Getenv("DB_USER"),
+		Password: os.Getenv("DB_PASSWORD"),
+		Host:     os.Getenv("DB_HOST"),
+		Database: os.Getenv("DB_NAME"),
 	}
 
 }
