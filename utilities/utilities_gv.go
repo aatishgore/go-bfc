@@ -19,6 +19,8 @@ type GvDatabase struct {
 	Password string
 	Database string
 	Host     string
+	Type     string
+	Port     string
 }
 
 // GvNetworkVariable give gloabl variable for network
@@ -53,6 +55,8 @@ func GetGlobalVariable() {
 		Password: os.Getenv("DB_PASSWORD"),
 		Host:     os.Getenv("DB_HOST"),
 		Database: os.Getenv("DB_NAME"),
+		Type:     os.Getenv("DB_TYPE"),
+		Port:     os.Getenv("DB_PORT"),
 	}
 
 }

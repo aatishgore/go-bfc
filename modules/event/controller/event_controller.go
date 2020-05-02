@@ -24,12 +24,12 @@ func AddEvent(w http.ResponseWriter, r *http.Request) {
 	// call service to add an event and get response from service
 	serviceResponse := service.AddEvent(Event)
 
-	notificationResponse := service.GetUnreadEventCount()
-	serviceString, _ := json.Marshal(notificationResponse)
-	socket.SendNotification(
-		"success",
-		string(serviceString),
-	)
+	//notificationResponse := service.GetUnreadEventCount()
+	//serviceString, _ := json.Marshal(notificationResponse)
+	// socket.SendNotification(
+	// 	"success",
+	// 	string(serviceString),
+	// )
 	// writing a response
 	json.NewEncoder(w).Encode(serviceResponse)
 }
