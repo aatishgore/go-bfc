@@ -12,8 +12,8 @@ type EventResponse struct {
 
 //EventNoDataResponse is set response for event no data found
 type EventNoDataResponse struct {
-	Status bool     `json:"status"`
-	Data   []string `json:"data"`
+	Status bool   `json:"status"`
+	Data   string `json:"data"`
 }
 
 // EventsResponse is set response for event list
@@ -111,9 +111,7 @@ func GetUnreadEventTypeCount() EventsTypeResponse {
 
 // NonEventData set response if data was not set
 func NonEventData() EventNoDataResponse {
-	var data []string
-	data = append(data, "No Event found")
-
+	data := "No Event found"
 	return EventNoDataResponse{true, data}
 }
 

@@ -4,6 +4,8 @@ import (
 	model "BFC/modules/event/model"
 	service "BFC/modules/event/service"
 	socket "BFC/utilities"
+	"fmt"
+	"io/ioutil"
 
 	"encoding/json"
 	"net/http"
@@ -14,22 +16,24 @@ import (
 // AddEvent action perfomed and wrire a response to destination
 func AddEvent(w http.ResponseWriter, r *http.Request) {
 
-	Event := model.Event{
-		EventName:   r.PostFormValue("event_name"),
-		EventSource: r.PostFormValue("event_source"),
-		EventDetail: r.PostFormValue("event_source"),
-		EventType:   r.PostFormValue("event_source"),
+	var Event model.Event
+
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		fmt.Println("Error in reading body")
 	}
+
+	err = json.Unmarshal(body, &Event)
 
 	// call service to add an event and get response from service
 	serviceResponse := service.AddEvent(Event)
 
-	//notificationResponse := service.GetUnreadEventCount()
-	//serviceString, _ := json.Marshal(notificationResponse)
-	// socket.SendNotification(
-	// 	"success",
-	// 	string(serviceString),
-	// )
+	notificationResponse := service.GetUnreadEventCount()
+	serviceString, _ := json.Marshal(notificationResponse)
+	socket.SendNotification(
+		"success",
+		string(serviceString),
+	)
 	// writing a response
 	json.NewEncoder(w).Encode(serviceResponse)
 }
