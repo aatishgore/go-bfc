@@ -5,6 +5,7 @@ import (
 	"BFC/utilities"
 	socket "BFC/utilities"
 	"encoding/json"
+	"log"
 )
 
 // EventResponse is set default event response
@@ -36,7 +37,7 @@ var response string
 
 // AddEvent create an event and sent response to service.
 func AddEvent(Event model.Event) EventResponse {
-
+	log.Println("Add event service initialize")
 	RequiredEventType := []string{"warning", "error"}
 
 	// call model to create a event
@@ -65,7 +66,7 @@ func AddEvent(Event model.Event) EventResponse {
 
 // GetAllEvent get all registered event
 func GetAllEvent() EventsResponse {
-
+	log.Println("Get all event service initialize")
 	// call model to get a events
 	eventList := model.GetEvents()
 
@@ -79,7 +80,7 @@ func GetAllEvent() EventsResponse {
 
 // GetEventDetail give event details
 func GetEventDetail(id string) EventResponse {
-
+	log.Println("Get event detail service initialize")
 	// call model to get a events
 	eventDetail := model.GetEvent(id)
 
@@ -95,6 +96,8 @@ func GetEventDetail(id string) EventResponse {
 // GetUnreadEventCount is ...
 // get count of unread event
 func GetUnreadEventCount() UnreadMessageCount {
+	log.Println("Get unread event count service initialize")
+
 	var count []uint64
 	// call model to get a total event
 	totalCount := model.GetUnreadEventCount()
@@ -107,7 +110,7 @@ func GetUnreadEventCount() UnreadMessageCount {
 
 // GetUnreadEventTypeCount give count of unread event by event type
 func GetUnreadEventTypeCount() EventsTypeResponse {
-
+	log.Println("Get all event by count service initialize")
 	// call model to get a total unread event
 	countByEventType := model.GetUnreadEventTypeCount()
 
@@ -142,6 +145,9 @@ func SendNotification() {
 		"success",
 		string(serviceString),
 	)
+
+	log.Println("send notification on channel")
+
 }
 
 // end : SendNotification

@@ -2,6 +2,7 @@ package utilities
 
 import (
 	"encoding/json"
+	"log"
 
 	"github.com/jinzhu/gorm"
 )
@@ -26,11 +27,14 @@ type Event struct {
 
 // CallInstanceAPI function call third party api
 func CallInstanceAPI(utilitieEventString []byte) {
+	log.Println("Call instance API")
 	var returnResponse string
 
 	event := Event{}
 
 	json.Unmarshal(utilitieEventString, &event)
+
+	log.Println("Environment is : " + Environment)
 
 	if Environment == "production" {
 
@@ -48,6 +52,7 @@ func CallInstanceAPI(utilitieEventString []byte) {
 
 	response := GetTicketID(returnResponse)
 
+	log.Println("Update ticket event : ")
 	UpdateEventTicket(response.Number, returnResponse, event.ID)
 
 }

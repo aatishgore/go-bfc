@@ -3,6 +3,8 @@ package utilities
 import (
 	"bytes"
 	"fmt"
+	"io/ioutil"
+	"log"
 	"net/http"
 )
 
@@ -16,9 +18,9 @@ type APIRequest struct {
 
 // CallAPI is call to a third part Api
 func CallAPI(request APIRequest) string {
-	var data string
 
 	// hit thered party api
+	log.Fatalln("Call instance api on : " + request.APIURL)
 	response, err := http.Post(request.APIURL, request.Headers, bytes.NewBuffer(request.Data))
 
 	// checking error
@@ -26,7 +28,7 @@ func CallAPI(request APIRequest) string {
 		fmt.Printf("The HTTP request failed with error %s\n", err)
 	}
 
-	fmt.Printf("%T", response.Body)
+	data, err := ioutil.ReadAll(response.Body)
 
-	return data
+	return string(data)
 }

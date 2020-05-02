@@ -5,7 +5,7 @@
 package utilities
 
 import (
-	"fmt"
+	"log"
 
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql" // not export
@@ -19,7 +19,7 @@ func DbConnect(db *gorm.DB) *gorm.DB {
 
 	// checking a error in connection
 	if err != nil {
-		fmt.Println(err)
+		log.Fatalln("Unable to connect a db please check credentials")
 		return nil
 	}
 

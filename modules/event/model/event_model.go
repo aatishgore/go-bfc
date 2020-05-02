@@ -128,8 +128,15 @@ func GetUnreadEventTypeCount() []Count {
 
 	db.Table("events").Select("event_type,count(id) as count").Where("is_read is null AND event_type IN (?, ?)", "error", "warning").Group("event_type").Scan(&counts)
 
+	UpdateEventRead()
+
 	return counts
 
 }
 
 // end : GetUnreadEventTypeCount
+
+// UpdateEventRead is update event which is unread to read
+func UpdateEventRead() {
+	db.Table("events").Where("is_read is null AND event_type IN (?, ?)", "error", "warning").Update("is_read", "1")
+}
