@@ -23,6 +23,13 @@ func AddEvent(w http.ResponseWriter, r *http.Request) {
 
 	// call service to add an event and get response from service
 	serviceResponse := service.AddEvent(Event)
+
+	notificationResponse := service.GetUnreadEventCount()
+	serviceString, _ := json.Marshal(notificationResponse)
+	socket.SendNotification(
+		"success",
+		string(serviceString),
+	)
 	// writing a response
 	json.NewEncoder(w).Encode(serviceResponse)
 }
@@ -65,4 +72,11 @@ func GetEventTypeCount(w http.ResponseWriter, r *http.Request) {
 
 	// writing a response
 	json.NewEncoder(w).Encode(serviceResponse)
+}
+
+// GetTotalNotification is featch a count by event type which is unread
+func GetTotalNotification(w http.ResponseWriter, r *http.Request) {
+	notificationResponse := service.GetUnreadEventCount()
+	json.NewEncoder(w).Encode(notificationResponse)
+
 }
