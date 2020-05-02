@@ -3,9 +3,11 @@ package utilities
 import (
 	"bytes"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"strings"
+	"time"
 )
 
 // APIRequest is help to set a parameter
@@ -28,7 +30,7 @@ func CallAPI(request APIRequest) string {
 		fmt.Printf("The HTTP request failed with error %s\n", err)
 	}
 
-	req.Header.Add("Authorization", "Basic "+basicAuth())
+	req.Header.Add("Authorization", basicAuth())
 	// req.BasicAuth(InstanceAPIUserName,InstanceAPIPassword)
 
 	for _, header := range request.Headers {
@@ -36,9 +38,20 @@ func CallAPI(request APIRequest) string {
 		req.Header.Set(headerPart[0], headerPart[1])
 	}
 
-	// data, err := ioutil.ReadAll(response.Body)
-	data := ""
-	return string(data)
+	client := &http.Client{Timeout: time.Second * 20}
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Fatal("Error reading response. ", err)
+	}
+
+	defer resp.Body.Close()
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Fatal("Error reading body. ", err)
+	}
+
+	return string(body)
 }
 
 func basicAuth() string {
