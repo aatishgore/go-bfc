@@ -70,6 +70,6 @@ func GetGlobalVariable() {
 
 	InstanceAPIURL = os.Getenv("INSTANCE_API_URL")
 	InstanceAPIUserName = os.Getenv("INSTANCE_API_USERNAME")
-	InstanceAPIPassword = os.Getenv("INSTANCE_API_password")
+	InstanceAPIPassword = os.Getenv("INSTANCE_API_PASSWORD")
 
 }
