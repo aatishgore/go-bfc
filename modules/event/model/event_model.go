@@ -107,7 +107,7 @@ func GetUnreadEventCount() uint64 {
 
 	// get count of unread event
 	var count uint64
-	db.Table("events").Where("is_read is null").Count(&count)
+	db.Table("events").Where("is_read is null AND event_type IN (?, ?)", "error", "warning").Count(&count)
 
 	// return an event list
 	return count
@@ -126,7 +126,7 @@ func GetUnreadEventTypeCount() []Count {
 
 	counts := []Count{}
 
-	db.Table("events").Select("event_type,count(id) as count").Where("is_read is null").Group("event_type").Scan(&counts)
+	db.Table("events").Select("event_type,count(id) as count").Where("is_read is null AND event_type IN (?, ?)", "error", "warning").Group("event_type").Scan(&counts)
 
 	return counts
 

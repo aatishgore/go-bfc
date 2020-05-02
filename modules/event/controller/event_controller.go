@@ -3,7 +3,8 @@ package controller
 import (
 	model "BFC/modules/event/model"
 	service "BFC/modules/event/service"
-	"strings"
+	"fmt"
+	"io/ioutil"
 
 	"encoding/json"
 	"net/http"
@@ -14,12 +15,14 @@ import (
 // AddEvent action perfomed and wrire a response to destination
 func AddEvent(w http.ResponseWriter, r *http.Request) {
 
-	Event := model.Event{
-		EventName:   r.PostFormValue("event_name"),
-		EventSource: r.PostFormValue("event_source"),
-		EventDetail: r.PostFormValue("event_source"),
-		EventType:   strings.ToLower(r.PostFormValue("event_type")),
+	var Event model.Event
+
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		fmt.Println("Error in reading body")
 	}
+
+	err = json.Unmarshal(body, &Event)
 
 	// call service to add an event and get response from service
 	serviceResponse := service.AddEvent(Event)
@@ -44,13 +47,7 @@ func GetDetail(w http.ResponseWriter, r *http.Request) {
 
 	// call service to get a details
 	serviceResponse := service.GetEventDetail(vars["id"])
-
-	// check data is present or not
-	if serviceResponse.Data.ID == 0 {
-		json.NewEncoder(w).Encode(service.NonEventData())
-	} else {
-		json.NewEncoder(w).Encode(serviceResponse)
-	}
+	json.NewEncoder(w).Encode(serviceResponse)
 
 	// writing a response
 }

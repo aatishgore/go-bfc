@@ -7,19 +7,13 @@ import (
 	"encoding/json"
 )
 
-// EventResponse is ...
+// EventResponse is set default event response
 type EventResponse struct {
 	Status bool        `json:"status"`
 	Data   model.Event `json:"data"`
 }
 
-//EventNoDataResponse is set response for event no data found
-type EventNoDataResponse struct {
-	Status bool     `json:"status"`
-	Data   []string `json:"data"`
-}
-
-// EventsResponse is set response for event list
+//EventsResponse is set response for event list
 type EventsResponse struct {
 	Status bool         `json:"status"`
 	Data   model.Events `json:"data"`
@@ -125,14 +119,6 @@ func GetUnreadEventTypeCount() EventsTypeResponse {
 }
 
 // end : GetUnreadEventTypeCount
-
-// NonEventData set response if data was not set
-func NonEventData() EventNoDataResponse {
-	var data []string
-	data = append(data, "No Event found")
-
-	return EventNoDataResponse{true, data}
-}
 
 // end : NonEventData
 
