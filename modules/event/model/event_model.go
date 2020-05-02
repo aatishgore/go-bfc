@@ -18,13 +18,15 @@ import (
 // UpdatedAt   time.Time
 // }
 
-// Event is ...
+// Event is default struct
 type Event struct {
 	ID          int    `json:"id"`
 	EventName   string `json:"event_name"`
 	EventSource string `json:"event_source"`
 	EventDetail string `json:"event_detail"`
 	EventType   string `json:"event_type"`
+	TicketNo    string `json:"ticket_no"`
+	ServiceNow  string `json:"service_now"`
 }
 
 // Count is ...
@@ -38,8 +40,7 @@ type Events []Event
 
 var db *gorm.DB
 
-// AddEvent is ...
-// Add event is create a event in data
+// AddEvent is create a event in data
 func AddEvent(event Event) Event {
 	// connect to database
 	db = utilities.DbConnect(db)
@@ -54,8 +55,7 @@ func AddEvent(event Event) Event {
 
 // end : AddEvent
 
-// GetEvents is ...
-// GetEvents give you all events
+// GetEvents is give you all events
 func GetEvents() Events {
 	// connect to database
 	db = utilities.DbConnect(db)
@@ -76,8 +76,7 @@ func GetEvents() Events {
 
 // end : GetEvents
 
-// GetEvent is ...
-// give detail mach with id
+// GetEvent is give detail mach with id
 func GetEvent(id string) Event {
 	// connect to database
 	db = utilities.DbConnect(db)
@@ -98,8 +97,7 @@ func GetEvent(id string) Event {
 
 // end : GetEvents
 
-// GetUnreadEventCount is ...
-// give detail mach with id
+// GetUnreadEventCount is give detail mach with id
 func GetUnreadEventCount() uint64 {
 	// connect to database
 	db = utilities.DbConnect(db)
@@ -118,7 +116,6 @@ func GetUnreadEventCount() uint64 {
 
 // end : GetUnreadEventCount
 
-// GetUnreadEventTypeCount is ...
 // GetUnreadEventTypeCount give event type wise count
 func GetUnreadEventTypeCount() []Count {
 	// connect to database
@@ -134,3 +131,5 @@ func GetUnreadEventTypeCount() []Count {
 	return counts
 
 }
+
+// end : GetUnreadEventTypeCount

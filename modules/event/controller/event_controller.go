@@ -3,7 +3,7 @@ package controller
 import (
 	model "BFC/modules/event/model"
 	service "BFC/modules/event/service"
-	socket "BFC/utilities"
+	"strings"
 
 	"encoding/json"
 	"net/http"
@@ -18,18 +18,11 @@ func AddEvent(w http.ResponseWriter, r *http.Request) {
 		EventName:   r.PostFormValue("event_name"),
 		EventSource: r.PostFormValue("event_source"),
 		EventDetail: r.PostFormValue("event_source"),
-		EventType:   r.PostFormValue("event_source"),
+		EventType:   strings.ToLower(r.PostFormValue("event_type")),
 	}
 
 	// call service to add an event and get response from service
 	serviceResponse := service.AddEvent(Event)
-
-	//notificationResponse := service.GetUnreadEventCount()
-	//serviceString, _ := json.Marshal(notificationResponse)
-	// socket.SendNotification(
-	// 	"success",
-	// 	string(serviceString),
-	// )
 	// writing a response
 	json.NewEncoder(w).Encode(serviceResponse)
 }
@@ -51,11 +44,8 @@ func GetDetail(w http.ResponseWriter, r *http.Request) {
 
 	// call service to get a details
 	serviceResponse := service.GetEventDetail(vars["id"])
-	serviceString, _ := json.Marshal(serviceResponse)
-	socket.SendNotification(
-		"success",
-		string(serviceString),
-	)
+
+	// check data is present or not
 	if serviceResponse.Data.ID == 0 {
 		json.NewEncoder(w).Encode(service.NonEventData())
 	} else {

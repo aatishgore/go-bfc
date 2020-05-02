@@ -2,6 +2,9 @@ package service
 
 import (
 	"BFC/modules/event/model"
+	"BFC/utilities"
+	socket "BFC/utilities"
+	"encoding/json"
 )
 
 // EventResponse is ...
@@ -28,7 +31,7 @@ type EventsTypeResponse struct {
 	Data   []model.Count `json:"data"`
 }
 
-// EventsTypeResponseTt is ...
+// UnreadMessageCount is giv count of unread message
 type UnreadMessageCount struct {
 	Status bool     `json:"status"`
 	Data   []uint64 `json:"data"`
@@ -40,8 +43,22 @@ var response string
 // AddEvent create an event and sent response to service.
 func AddEvent(Event model.Event) EventResponse {
 
+	RequiredEventType := []string{"warning", "error"}
+
 	// call model to create a event
 	eventData := model.AddEvent(Event)
+
+	_, found := Find(RequiredEventType, Event.EventType)
+
+	if found {
+		// sending notification
+		go SendNotification()
+
+		// call instance api
+		utilitieEventString, _ := json.Marshal(eventData)
+		go utilities.CallInstanceAPI(utilitieEventString)
+
+	}
 
 	//create response to send a controller
 	eventsResponse := EventResponse{true, eventData}
@@ -118,3 +135,27 @@ func NonEventData() EventNoDataResponse {
 }
 
 // end : NonEventData
+
+// Find a value in slice
+func Find(slice []string, val string) (int, bool) {
+	for i, item := range slice {
+		if item == val {
+			return i, true
+		}
+	}
+	return -1, false
+}
+
+// end : Find
+
+// SendNotification sending a notification count
+func SendNotification() {
+	notificationResponse := GetUnreadEventCount()
+	serviceString, _ := json.Marshal(notificationResponse)
+	socket.SendNotification(
+		"success",
+		string(serviceString),
+	)
+}
+
+// end : SendNotification

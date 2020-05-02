@@ -32,6 +32,9 @@ var GvDatabaseVariable *GvDatabase
 // Environment tell project currecnt environment
 var Environment string
 
+// InstanceAPIURL API URL
+var InstanceAPIURL string
+
 // GetGlobalVariable function get global variable
 func GetGlobalVariable() {
 
@@ -58,5 +61,7 @@ func GetGlobalVariable() {
 		Type:     os.Getenv("DB_TYPE"),
 		Port:     os.Getenv("DB_PORT"),
 	}
+
+	InstanceAPIURL = os.Getenv("INSTANCE_API_URL")
 
 }
