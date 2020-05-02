@@ -32,8 +32,14 @@ var GvDatabaseVariable *GvDatabase
 // Environment tell project currecnt environment
 var Environment string
 
-// InstanceAPIURL API URL
+// InstanceAPIURL API
 var InstanceAPIURL string
+
+// InstanceAPIUserName API
+var InstanceAPIUserName string
+
+// InstanceAPIPassword API
+var InstanceAPIPassword string
 
 // GetGlobalVariable function get global variable
 func GetGlobalVariable() {
@@ -63,5 +69,7 @@ func GetGlobalVariable() {
 	}
 
 	InstanceAPIURL = os.Getenv("INSTANCE_API_URL")
+	InstanceAPIUserName = os.Getenv("INSTANCE_API_USERNAME")
+	InstanceAPIPassword = os.Getenv("INSTANCE_API_password")
 
 }

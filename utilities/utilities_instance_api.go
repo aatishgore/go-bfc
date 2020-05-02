@@ -41,7 +41,7 @@ func CallInstanceAPI(utilitieEventString []byte) {
 		apiRequest := APIRequest{
 			APIURL:  InstanceAPIURL,
 			Method:  "POST",
-			Headers: "Content-Type:application/json",
+			Headers: []string{"Content-Type:application/json", "Accept:application/json"},
 			Data:    utilitieEventString,
 		}
 
