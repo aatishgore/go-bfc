@@ -11,39 +11,32 @@ type EventResponse struct {
 	Data   model.Event `json:"data"`
 }
 
-//EventNoDataResponse is ....
+//EventNoDataResponse is set response for event no data found
 type EventNoDataResponse struct {
 	Status bool     `json:"status"`
 	Data   []string `json:"data"`
 }
 
-// EventsResponse is ...
+// EventsResponse is set response for event list
 type EventsResponse struct {
 	Status bool         `json:"status"`
 	Data   model.Events `json:"data"`
 }
 
-// EventsTypeResponse is ...
+// EventsTypeResponse is set response for event by type
 type EventsTypeResponse struct {
 	Status bool          `json:"status"`
 	Data   []model.Count `json:"data"`
 }
 
-// define response variable
+// response variable
 var response string
 
-// AddEvent is ...
 // AddEvent create an event and sent response to service.
-func AddEvent() EventResponse {
-	event := model.Event{
-		EventName:   "this is a event Name",
-		EventSource: "this is a demo event source",
-		EventDetail: "this is a event detail",
-		EventType:   "Warning",
-	}
+func AddEvent(Event model.Event) EventResponse {
 
 	// call model to create a event
-	eventData := model.AddEvent(event)
+	eventData := model.AddEvent(Event)
 
 	//create response to send a controller
 	eventsResponse := EventResponse{true, eventData}
@@ -54,8 +47,7 @@ func AddEvent() EventResponse {
 
 // end : AddEvent
 
-// GetAllEvent is ...
-// this service all event
+// GetAllEvent get all registered event
 func GetAllEvent() EventsResponse {
 
 	// call model to get a events
@@ -69,8 +61,7 @@ func GetAllEvent() EventsResponse {
 
 // end : GetAllEvent
 
-// GetEventDetail is ...
-// this service five event detail
+// GetEventDetail give event details
 func GetEventDetail(id string) EventResponse {
 
 	// call model to get a events
@@ -85,8 +76,7 @@ func GetEventDetail(id string) EventResponse {
 
 // end : GetEventDetail
 
-// GetUnreadEventCount is ...
-// get count of unread event
+// GetUnreadEventCount give count of unread event
 func GetUnreadEventCount() {
 
 	// call model to get a total event
@@ -97,8 +87,7 @@ func GetUnreadEventCount() {
 
 // end : GetUnreadEventCount
 
-// GetUnreadEventTypeCount is ...
-// get count of unread event
+// GetUnreadEventTypeCount give count of unread event by event type
 func GetUnreadEventTypeCount() EventsTypeResponse {
 
 	// call model to get a total unread event
@@ -113,9 +102,12 @@ func GetUnreadEventTypeCount() EventsTypeResponse {
 
 // end : GetUnreadEventTypeCount
 
+// NonEventData set response if data was not set
 func NonEventData() EventNoDataResponse {
 	var data []string
 	data = append(data, "No Event found")
 
 	return EventNoDataResponse{true, data}
 }
+
+// end : NonEventData

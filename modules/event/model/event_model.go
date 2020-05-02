@@ -13,7 +13,7 @@ import (
 // 	EventSource string `gorm:"not null;column:event_source;type:varchar(100)"`
 // 	EventDetail string `gorm:"not null;column:event_detail;type:varchar(255)"`
 // 	EventType   string `gorm:"not null;column:event_type;type:enum('Error','Warning')"`
-// 	isRead      int    `gorm:"not null;column:event_type;type:tinyint(1)"`
+// 	isRead      int    `gorm:"not null;column:is_read;type:tinyint(1)"`
 // CreatedAt   time.Time
 // UpdatedAt   time.Time
 // }

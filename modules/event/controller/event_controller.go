@@ -1,6 +1,7 @@
 package controller
 
 import (
+	model "BFC/modules/event/model"
 	service "BFC/modules/event/service"
 	socket "BFC/utilities"
 
@@ -12,8 +13,16 @@ import (
 
 // AddEvent action perfomed and wrire a response to destination
 func AddEvent(w http.ResponseWriter, r *http.Request) {
+
+	Event := model.Event{
+		EventName:   r.PostFormValue("event_name"),
+		EventSource: r.PostFormValue("event_source"),
+		EventDetail: r.PostFormValue("event_source"),
+		EventType:   r.PostFormValue("event_source"),
+	}
+
 	// call service to add an event and get response from service
-	serviceResponse := service.AddEvent()
+	serviceResponse := service.AddEvent(Event)
 	// writing a response
 	json.NewEncoder(w).Encode(serviceResponse)
 }

@@ -34,9 +34,12 @@ func Init() {
 	subRouter.HandleFunc("/notification", event.GetEventTypeCount).Methods("GET")
 
 	// create websocket
-	myRouter.HandleFunc("/echo", func(w http.ResponseWriter, r *http.Request) {
-		socket.Initialize(w, r)
-	})
+	// myRouter.HandleFunc("/echo", func(w http.ResponseWriter, r *http.Request) {
+	// 	socket.Initialize(w, r)
+	// })
+
+	myRouter.HandleFunc("/echo", socket.Initialize).Methods("GET")
+
 	// create server
 	err := http.ListenAndServe(utilities.GvNetworkVariable.Port, myRouter)
 
