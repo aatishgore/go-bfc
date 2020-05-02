@@ -2,6 +2,7 @@ package main
 
 import (
 	event "BFC/modules/event/controller"
+	"BFC/utilities"
 	socket "BFC/utilities"
 
 	"log"
@@ -14,7 +15,7 @@ import (
  * Init function initialize a all route and create http server on port 8080
  */
 
-// Init is ...
+// Init is initialize route
 func Init() {
 
 	// create rounter object to handel a route
@@ -37,7 +38,7 @@ func Init() {
 		socket.Initialize(w, r)
 	})
 	// create server
-	err := http.ListenAndServe(":8080", myRouter)
+	err := http.ListenAndServe(utilities.GvNetworkVariable.Port, myRouter)
 
 	// log a error
 	log.Fatal(err)
