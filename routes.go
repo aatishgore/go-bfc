@@ -31,7 +31,7 @@ func Init() {
 	// routing list
 	subRouter.HandleFunc("/add/incident", event.AddEvent).Methods("POST")
 	subRouter.HandleFunc("/incident", event.GetEvents).Methods("GET")
-	subRouter.HandleFunc("/incident/{id:[0-9]+}", event.GetDetail).Methods("GET")
+	subRouter.HandleFunc("/incident/{id:[0-9,A-Z]+}", event.GetDetail).Methods("GET")
 	subRouter.HandleFunc("/notification", event.GetEventTypeCount).Methods("GET")
 	subRouter.HandleFunc("/notification/count", event.GetTotalNotification).Methods("GET")
 

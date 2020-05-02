@@ -88,7 +88,7 @@ func GetEvent(id string) Event {
 	event := Event{}
 
 	// find all events
-	db.Find(&event, id)
+	db.Where("ticket_no = ?", id).Find(&event)
 
 	// return an event list
 	return event
