@@ -67,7 +67,7 @@ func GetEvents() Events {
 	events := Events{}
 
 	// find all events
-	db.Find(&events)
+	db.Order("id desc").Find(&events)
 
 	// return an event list
 	return events
